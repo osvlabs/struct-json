@@ -84,6 +84,56 @@ Please refer to the files in folder `samples`
 1. struct "Schema" will be used as the default root struct
 2. ``#pragma pack(push,1)  `` is used for make sure the `struct` align with byte, it can be changed as the final usage. Also ``#pragma pack(pop) `` should be used after the `struct` is defined
 
+## Running Result
+
+```sh
+$ python3 python/json2struct.py 
+c++ output: Hi ABCDE
+b'Hi ABCDE'
+0x12 0x27 0x00 0x00 0x68 0xab 0x4a 0x5e 0x00 0x00 0x00 0x00 0x01 0x41 0x42 0x43 0x44 0x45 0x46 0x47 0x0a 0x00 0x00 0x00
+```
+
+```sh
+$ python3 python/struct2json.py 
+b'Hi ABCDEFG'
+b'{"data":{"active":true,"name":"ABCDEF","timestamp":1581951848,"value":10},"id":10002}'
+```
+
+```sh
+$ python3 python/mix.py 
+0x12 0x27 0x00 0x00 0x68 0xab 0x4a 0x5e 0x00 0x00 0x00 0x00 0x01 0x41 0x42 0x43 0x44 0x45 0x46 0x47 0x0a 0x00 0x00 0x00
+b'{"data":{"active":true,"name":"ABCDEFG\\n","timestamp":1581951848,"value":10},"id":10002}'
+```
+
+```sh
+$ cd samples
+$ clang++ json2struct.cc -std=c++14 -Wall -o ../bin/json2struct && ../bin/json2struct
+0x37 0x00 0x00 0x00 
+0x68 0xAB 0x4A 0x5E 
+0x00 0x00 0x00 0x00 
+0x01 0x41 0x42 0x43 
+0x44 0x45 0x46 0x00 
+0x0A 0x00 0x00 0x00 
+
+length:24
+55
+1581951848
+1
+ABCDEF
+10
+
+$ clang++ struct2json.cc -std=c++14 -Wall -o ../bin/struct2json && ../bin/struct2json
+{
+  "data": {
+    "active": true,
+    "name": "ABCDEF",
+    "timestamp": 1581951848,
+    "value": 10
+  },
+  "id": 55
+}
+```
+
 
 
 
